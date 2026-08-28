@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Asistencia · Quiebre</title>
+<meta name="description" content="Cuántas veces vota cada diputado de la Cámara de Diputadas y Diputados de Chile frente a cuántas está ausente o dispensado, y cómo se compara esa asistencia entre coaliciones.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Public+Sans:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="saltar" href="#composicion">Saltar al detalle</a>
+
+<header class="cabecera">
+  <div class="envoltura">
+    <p class="eyebrow">Cámara de Diputadas y Diputados · datos abiertos</p>
+    <h1 class="marca">Asistencia</h1>
+    <p class="tesis">Cada barra es un diputado: cuánto de su registro de voto es presencia real
+      —<span class="resalte">a favor, en contra o abstención</span>— frente a lo que fue
+      ausencia o pareo.</p>
+
+    <div class="buscador">
+      <label class="oculto" for="buscar">Buscar un diputado</label>
+      <input id="buscar" type="search" placeholder="Buscar por nombre o partido" autocomplete="off">
+    </div>
+
+    <label class="incluir-independientes">
+      <input type="checkbox" id="incluir-independientes">
+      Incluir a los independientes
+      <small>no pertenecen a ninguna coalición; agruparlos como si fuera una es una simplificación, así que quedan fuera por defecto</small>
+    </label>
+
+    <dl class="marcador" id="marcador"></dl>
+
+    <p class="ver-tambien"><a href="index.html">← Volver al índice de quiebre</a></p>
+  </div>
+</header>
+
+<main>
+  <section class="envoltura seccion" id="composicion">
+    <div class="titulo-seccion">
+      <h2>Composición de la asistencia</h2>
+      <p class="bajada" id="bajada-composicion"></p>
+    </div>
+
+    <p class="leyenda leyenda-cuadros">
+      <span><i class="cuadro" style="background:var(--tinta)"></i> votó (a favor, en contra o abstención)</span>
+      <span><i class="cuadro" style="background:var(--quiebre)"></i> ausente</span>
+      <span><i class="cuadro" style="background:var(--tinta-3)"></i> dispensado (pareo)</span>
+    </p>
+
+    <div class="controles">
+      <label>Ordenar por
+        <select id="orden">
+          <option value="asistencia-asc">Menos asistencia</option>
+          <option value="asistencia-desc">Más asistencia</option>
+          <option value="nombre">Nombre</option>
+          <option value="coalicion">Coalición</option>
+        </select>
+      </label>
+      <p class="conteo" id="conteo"></p>
+    </div>
+
+    <div class="stack-lista" id="stack-lista"></div>
+  </section>
+
+  <section class="envoltura seccion" id="coaliciones">
+    <div class="titulo-seccion">
+      <h2>Asistencia promedio por coalición</h2>
+      <p class="bajada">Promedio del índice de asistencia de cada integrante, comparado en una
+        misma escala de 0 a 100%.</p>
+    </div>
+    <div class="chart-comparativo" id="chart-coaliciones"></div>
+  </section>
+
+  <section class="envoltura seccion" id="metodo-asistencia">
+    <div class="titulo-seccion">
+      <h2>Cómo se mide</h2>
+    </div>
+    <div class="metodo-grilla">
+      <article>
+        <h3>Qué cuenta como presente</h3>
+        <p>El índice de asistencia es la proporción de votaciones de la ventana en que el diputado
+          emitió un voto: a favor, en contra o abstención. No cuenta como presente una ausencia
+          simple ni un pareo formal.</p>
+      </article>
+      <article>
+        <h3>Ausente vs. dispensado</h3>
+        <p>La fuente distingue "No Vota" (ausencia simple, sin aviso previo) de "Dispensado"
+          (pareo formal, acordado de antemano con otro diputado). Son cosas distintas y se
+          muestran por separado en cada barra.</p>
+      </article>
+      <article>
+        <h3>No es asistencia a sesiones</h3>
+        <p>Es presencia en el registro de cada votación de sala, no un servicio formal de
+          asistencia a sesiones — la Cámara no publica uno por separado. Un diputado que llega
+          a la sala y no alcanza a votar igual queda registrado como ausente en esa votación.</p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="pie">
+  <div class="envoltura">
+    <p>Quiebre es un proyecto ciudadano construido sobre los
+      <a href="https://www.camara.cl/transparencia/datosAbiertos.aspx">datos abiertos de la Cámara</a>.
+      No tiene vínculo con la Cámara de Diputadas y Diputados ni con partido alguno.</p>
+    <p class="pie-meta" id="pie-meta"></p>
+  </div>
+</footer>
+
+<script src="asistencia.js"></script>
+</body>
+</html>

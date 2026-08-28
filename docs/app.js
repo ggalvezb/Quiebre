@@ -150,51 +150,6 @@ function pintarCohesion() {
     .join("");
 }
 
-function pintarAsistencia() {
-  const min = estado.meta.parametros?.min_votaciones_para_ranking ?? 30;
-  const visibles = diputadosVisibles();
-
-  const votosEmitidos = (d) => d.votos.a_favor + d.votos.en_contra + d.votos.abstencion;
-  const top = visibles
-    .filter((d) => d.asistencia != null && votosEmitidos(d) >= min)
-    .sort((a, b) => a.asistencia - b.asistencia)
-    .slice(0, 12);
-  $("#asistencia-lista").innerHTML = top
-    .map((d, i) => `<li>${filaHTML(d, i + 1, "asistencia", "ASISTENCIA")}</li>`)
-    .join("");
-
-  const porCoalicion = new Map();
-  for (const d of visibles) {
-    if (d.asistencia == null) continue;
-    if (!porCoalicion.has(d.coalicion)) porCoalicion.set(d.coalicion, []);
-    porCoalicion.get(d.coalicion).push(d.asistencia);
-  }
-  const promedios = [...porCoalicion.entries()]
-    .map(([nombre, vals]) => ({
-      nombre,
-      promedio: vals.reduce((s, v) => s + v, 0) / vals.length,
-      integrantes: vals.length,
-    }))
-    .sort((a, b) => b.promedio - a.promedio);
-
-  $("#barras-asistencia").innerHTML = promedios
-    .map(
-      (c) => `
-      <div class="barra">
-        <span class="nom">${esc(c.nombre)}<small>${c.integrantes} integrantes</small></span>
-        <span class="pista"><span class="relleno" style="width:${c.promedio * 100}%"></span></span>
-        <span class="val">${pct(c.promedio, 0)}</span>
-      </div>`
-    )
-    .join("");
-
-  const global = visibles.filter((d) => d.asistencia != null);
-  const promedioGlobal = global.reduce((s, d) => s + d.asistencia, 0) / (global.length || 1);
-  $("#bajada-asistencia").textContent =
-    `Asistencia promedio de la Cámara: ${pct(promedioGlobal, 0)}. ` +
-    `Los doce que menos asistieron entre quienes emitieron al menos ${min} votos en la ventana de datos.`;
-}
-
 function listaFiltrada() {
   const { texto, coalicion, min } = estado.filtro;
   const t = texto.trim().toLowerCase();
@@ -208,8 +163,6 @@ function listaFiltrada() {
   const cmp = {
     "indice-desc": (a, b) => (b.indice ?? -1) - (a.indice ?? -1),
     "indice-asc": (a, b) => (a.indice ?? 9) - (b.indice ?? 9),
-    "asistencia-asc": (a, b) => (a.asistencia ?? 9) - (b.asistencia ?? 9),
-    "asistencia-desc": (a, b) => (b.asistencia ?? -1) - (a.asistencia ?? -1),
     nombre: (a, b) => a.nombre.localeCompare(b.nombre, "es"),
     partido: (a, b) => a.partido.localeCompare(b.partido, "es") || a.nombre.localeCompare(b.nombre, "es"),
     "computables-desc": (a, b) => b.computables - a.computables,
@@ -218,17 +171,11 @@ function listaFiltrada() {
   return lista.sort(cmp);
 }
 
-const CAMPO_TABLA = {
-  "asistencia-asc": ["asistencia", "ASISTENCIA"],
-  "asistencia-desc": ["asistencia", "ASISTENCIA"],
-};
-
 function pintarTabla() {
   const lista = listaFiltrada();
-  const [campo, etiqueta] = CAMPO_TABLA[estado.orden] || ["indice", "QUIEBRE"];
   $("#conteo").textContent = `${lista.length} de ${diputadosVisibles().length}`;
   $("#tabla").innerHTML = lista.length
-    ? lista.map((d) => filaHTML(d, null, campo, etiqueta)).join("")
+    ? lista.map((d) => filaHTML(d, null)).join("")
     : `<p class="vacio">Ningún diputado calza con esos filtros. Prueba bajando el mínimo de votaciones o borrando la búsqueda.</p>`;
 }
 
@@ -395,7 +342,6 @@ function conectar() {
     poblarFiltroCoalicion();
     pintarDestacados();
     pintarCohesion();
-    pintarAsistencia();
     pintarTabla();
   });
 }
@@ -419,7 +365,6 @@ cargar()
     pintarMarcador();
     pintarDestacados();
     pintarCohesion();
-    pintarAsistencia();
     pintarTabla();
     conectar();
   })

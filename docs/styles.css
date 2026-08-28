@@ -153,14 +153,39 @@ a:hover { color: var(--quiebre); }
   font-variant-numeric: tabular-nums;
 }
 
-.ver-tambien {
-  margin: 22px 0 0;
+.boton-asistencia {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 26px 0 0;
+  padding: 12px 22px;
+  border-radius: 99px;
+  background: var(--quiebre);
+  color: var(--panel);
   font-family: var(--dato);
-  font-size: 12.5px;
+  font-size: 13.5px;
+  font-weight: 500;
   letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: background 0.14s ease, transform 0.14s ease;
 }
-.ver-tambien a { color: #c9ccd2; }
-.ver-tambien a:hover { color: var(--quiebre); }
+.boton-asistencia:hover {
+  background: #e0355f;
+  color: var(--panel);
+  transform: translateY(-1px);
+}
+.boton-asistencia.boton-secundario {
+  background: transparent;
+  color: #c9ccd2;
+  border: 1.5px solid #454b54;
+  padding: 10px 20px;
+}
+.boton-asistencia.boton-secundario:hover {
+  background: transparent;
+  border-color: var(--quiebre);
+  color: var(--quiebre);
+  transform: none;
+}
 
 /* --------------------------------------------------------------- aviso */
 

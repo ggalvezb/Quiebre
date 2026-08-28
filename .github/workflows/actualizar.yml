@@ -31,7 +31,7 @@ jobs:
           restore-keys: camara-xml-
 
       - name: Construir los datos
-        run: python -m etl.build --desde 2026
+        run: python -m etl.build --desde 2026 --desde-fecha 2026-03-12
 
       - name: Publicar si hubo cambios
         run: |

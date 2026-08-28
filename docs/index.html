@@ -58,6 +58,24 @@
     <div class="barras" id="barras-cohesion"></div>
   </section>
 
+  <section class="envoltura seccion" id="asistencia">
+    <div class="titulo-seccion">
+      <h2>Quiénes más faltan</h2>
+      <p class="bajada" id="bajada-asistencia"></p>
+    </div>
+    <ol class="lista-tiras" id="asistencia-lista"></ol>
+  </section>
+
+  <section class="envoltura seccion" id="asistencia-coalicion">
+    <div class="titulo-seccion">
+      <h2>Asistencia promedio por coalición</h2>
+      <p class="bajada">Promedio del índice de asistencia de cada integrante. Cuenta como presente
+        cuando votó a favor, en contra o se abstuvo; no cuenta cuando estuvo ausente o fue
+        dispensado (pareo).</p>
+    </div>
+    <div class="barras" id="barras-asistencia"></div>
+  </section>
+
   <section class="envoltura seccion" id="ranking">
     <div class="titulo-seccion">
       <h2>Todos los diputados</h2>
@@ -72,6 +90,8 @@
         <select id="orden">
           <option value="indice-desc">Más se aparta</option>
           <option value="indice-asc">Menos se aparta</option>
+          <option value="asistencia-asc">Menos asistencia</option>
+          <option value="asistencia-desc">Más asistencia</option>
           <option value="nombre">Nombre</option>
           <option value="partido">Partido</option>
           <option value="computables-desc">Más votaciones</option>
@@ -108,6 +128,13 @@
         <p>Es el porcentaje de votaciones en que el diputado votó distinto a esa posición. Una
           abstención cuando la coalición sí fijó postura cuenta como medio quiebre. Ausencias y
           pareos no cuentan, porque no son una decisión sobre el fondo.</p>
+      </article>
+      <article>
+        <h3>La asistencia</h3>
+        <p>No es asistencia a sesiones: es presencia en el registro de cada votación de sala. Cuenta
+          como presente votar a favor, en contra o abstenerse; cuenta como ausente el "No Vota" que
+          registra la fuente, y aparte el pareo formal ("Dispensado"). La Cámara no publica un
+          servicio de asistencia a sesiones por separado.</p>
       </article>
       <article>
         <h3>Lo que el dato no dice</h3>

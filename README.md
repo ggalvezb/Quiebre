@@ -46,6 +46,11 @@ posición. Una abstención frente a una coalición que sí fijó postura suma `p
 La **cohesión** de una coalición es el índice de Rice: la diferencia entre bloque mayoritario y
 minoritario dividida por el total de votantes, promediada sobre todas las votaciones con línea.
 
+La **asistencia** de un diputado es la proporción de votaciones de la ventana en que emitió un
+voto (a favor, en contra o abstención). El servicio de la Cámara distingue "No Vota" (ausencia
+simple) de "Dispensado" (pareo formal, acordado de antemano); ninguno de los dos cuenta como
+presente, y se reportan por separado en la ficha de cada diputado.
+
 Ambos parámetros se editan en `etl/config/coaliciones.json`.
 
 ## Límites conocidos
@@ -53,5 +58,8 @@ Ambos parámetros se editan en `etl/config/coaliciones.json`.
 - Todas las votaciones pesan igual, sean de fondo o de trámite. Ponderar por relevancia exige un
   criterio que hoy no está en los datos.
 - Solo cubre votaciones de sala. Las de comisión no están en el mismo servicio.
+- La asistencia se mide por presencia en el registro de voto, no por un servicio de asistencia a
+  sesiones (la Cámara no publica uno). Un diputado que llega y no alcanza a votar igual cuenta
+  como ausente en esa votación.
 - Apartarse de la coalición no es en sí mismo bueno ni malo. El sitio lo dice explícitamente.
 

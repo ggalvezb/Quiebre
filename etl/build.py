@@ -124,7 +124,7 @@ def calcular(votaciones, detalles, diputados, parametros):
 
     acum = {
         d: {"computables": 0.0, "quiebres": 0.0, "part_computables": 0.0, "part_quiebres": 0.0,
-            "A": 0, "C": 0, "B": 0, "D": 0}
+            "A": 0, "C": 0, "B": 0, "D": 0, "N": 0}
         for d in diputados
     }
     cohesion_por_coalicion = defaultdict(list)
@@ -196,7 +196,11 @@ def calcular(votaciones, detalles, diputados, parametros):
                 "quiebres": round(a["quiebres"], 1),
                 "indice": round(a["quiebres"] / comp, 4) if comp else None,
                 "indice_partido": round(a["part_quiebres"] / comp_p, 4) if comp_p else None,
-                "votos": {"a_favor": a["A"], "en_contra": a["C"], "abstencion": a["B"], "dispensado": a["D"]},
+                "votos": {
+                    "a_favor": a["A"], "en_contra": a["C"], "abstencion": a["B"],
+                    "dispensado": a["D"], "ausente": a["N"],
+                },
+                "asistencia": round((a["A"] + a["C"] + a["B"]) / n, 4) if n else None,
                 "serie": "".join(serie[ident]),
                 "quiebre_serie": "".join(quiebre_coal[ident]),
             }

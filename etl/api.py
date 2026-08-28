@@ -225,15 +225,16 @@ OPCIONES = {
     "favor": "A",
     "contra": "C",     # en contra
     "absten": "B",     # abstencion
-    "dispens": "D",    # dispensado (pareo formal)
+    "dispens": "D",    # dispensado (pareo formal, autorizado de antemano)
     "pareo": "D",
+    "no vota": "N",    # ausente el dia de la votacion, sin pareo formal
 }
 
 
 def normalizar_opcion(texto: str) -> str:
-    """"No Vota" (simple ausencia) queda sin mapear a proposito: se
-    distingue de "Dispensado" (pareo formal) aunque ninguno de los dos
-    entra en el denominador del calculo."""
+    """"No Vota" (ausencia simple) y "Dispensado" (pareo formal) se
+    distinguen porque son cosas distintas para efectos de asistencia,
+    aunque ninguna de las dos entra en el denominador del quiebre."""
     t = (texto or "").strip().lower()
     for clave, codigo in OPCIONES.items():
         if clave in t:

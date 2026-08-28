@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quiebre · cómo vota cada diputado frente a su coalición</title>
+<meta name="description" content="Cada votación de sala de la Cámara de Diputadas y Diputados de Chile, comparada con la posición mayoritaria de cada coalición. Datos abiertos oficiales, actualizados a diario.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Public+Sans:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="saltar" href="#ranking">Saltar al ranking</a>
+
+<header class="cabecera">
+  <div class="envoltura">
+    <p class="eyebrow">Cámara de Diputadas y Diputados · datos abiertos</p>
+    <h1 class="marca">Quiebre</h1>
+    <p class="tesis">Cada línea de abajo es un diputado. Cada marca, una votación de sala.
+      Las marcas <span class="resalte">en rojo</span> son las veces que votó contra la posición
+      mayoritaria de su propia coalición.</p>
+
+    <div class="buscador">
+      <label class="oculto" for="buscar">Buscar un diputado</label>
+      <input id="buscar" type="search" placeholder="Buscar por nombre o partido" autocomplete="off">
+    </div>
+
+    <label class="incluir-independientes">
+      <input type="checkbox" id="incluir-independientes">
+      Incluir a los independientes
+      <small>no pertenecen a ninguna coalición; agruparlos como si fuera una es una simplificación, así que quedan fuera por defecto</small>
+    </label>
+
+    <dl class="marcador" id="marcador"></dl>
+  </div>
+</header>
+
+<div class="aviso" id="aviso" hidden></div>
+
+<main>
+  <section class="envoltura seccion" id="destacados">
+    <div class="titulo-seccion">
+      <h2>Los que más se apartan</h2>
+      <p class="bajada" id="bajada-destacados"></p>
+    </div>
+    <ol class="lista-tiras" id="destacados-lista"></ol>
+  </section>
+
+  <section class="envoltura seccion" id="cohesion">
+    <div class="titulo-seccion">
+      <h2>Qué tan unida vota cada coalición</h2>
+      <p class="bajada">Promedio de la diferencia entre el bloque mayoritario y el minoritario
+        dentro de la coalición, en cada votación donde alcanzó a fijar una posición. 100% es voto
+        unánime; 0% es una coalición partida en dos.</p>
+    </div>
+    <div class="barras" id="barras-cohesion"></div>
+  </section>
+
+  <section class="envoltura seccion" id="ranking">
+    <div class="titulo-seccion">
+      <h2>Todos los diputados</h2>
+      <p class="bajada">Ordena, filtra y abre a cualquiera para ver sus votaciones una por una.</p>
+    </div>
+
+    <div class="controles">
+      <label>Coalición
+        <select id="filtro-coalicion"><option value="">Todas</option></select>
+      </label>
+      <label>Ordenar por
+        <select id="orden">
+          <option value="indice-desc">Más se aparta</option>
+          <option value="indice-asc">Menos se aparta</option>
+          <option value="nombre">Nombre</option>
+          <option value="partido">Partido</option>
+          <option value="computables-desc">Más votaciones</option>
+        </select>
+      </label>
+      <label>Mínimo de votaciones
+        <select id="filtro-min">
+          <option value="30">30</option>
+          <option value="0">Sin mínimo</option>
+          <option value="100">100</option>
+          <option value="200">200</option>
+        </select>
+      </label>
+      <p class="conteo" id="conteo"></p>
+    </div>
+
+    <div class="tabla" id="tabla"></div>
+  </section>
+
+  <section class="envoltura seccion" id="metodo">
+    <div class="titulo-seccion">
+      <h2>Cómo se calcula</h2>
+    </div>
+    <div class="metodo-grilla">
+      <article>
+        <h3>La línea de la coalición</h3>
+        <p>En cada votación se mira cómo votaron los integrantes de una coalición. Si la mayoría
+          votó a favor, esa es su posición; si votó en contra, es la contraria. Cuando la coalición
+          queda empatada o votan muy pocos de sus integrantes, esa votación no cuenta para nadie de
+          esa coalición: no había línea que romper.</p>
+      </article>
+      <article>
+        <h3>El índice de quiebre</h3>
+        <p>Es el porcentaje de votaciones en que el diputado votó distinto a esa posición. Una
+          abstención cuando la coalición sí fijó postura cuenta como medio quiebre. Ausencias y
+          pareos no cuentan, porque no son una decisión sobre el fondo.</p>
+      </article>
+      <article>
+        <h3>Lo que el dato no dice</h3>
+        <p>Apartarse de la coalición no es bueno ni malo por sí solo. Puede ser convicción, un
+          compromiso con el distrito o una negociación. El índice describe conducta de voto, no
+          calidad ni honestidad. Muchas votaciones son de trámite y pesan lo mismo que las de fondo.</p>
+      </article>
+      <article>
+        <h3>De dónde salen los datos</h3>
+        <p>De los Web Services de Datos Abiertos de la Cámara: votaciones de sala y su detalle voto
+          a voto. La agrupación de partidos en coaliciones no viene en la fuente oficial, la define
+          este proyecto y se puede revisar en el repositorio.</p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="pie">
+  <div class="envoltura">
+    <p>Quiebre es un proyecto ciudadano construido sobre los
+      <a href="https://www.camara.cl/transparencia/datosAbiertos.aspx">datos abiertos de la Cámara</a>.
+      No tiene vínculo con la Cámara de Diputadas y Diputados ni con partido alguno.</p>
+    <p class="pie-meta" id="pie-meta"></p>
+  </div>
+</footer>
+
+<dialog class="ficha" id="ficha" aria-label="Ficha del diputado">
+  <button class="cerrar" id="cerrar-ficha" aria-label="Cerrar ficha">Cerrar</button>
+  <div id="ficha-cuerpo"></div>
+</dialog>
+
+<script src="app.js"></script>
+</body>
+</html>

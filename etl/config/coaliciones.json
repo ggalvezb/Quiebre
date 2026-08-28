@@ -1,0 +1,19 @@
+{
+  "_nota": "Revisa este archivo antes de publicar. La API de la Camara entrega el partido, no la coalicion, asi que el mapa es una decision editorial tuya y hay que actualizarlo cuando cambian los pactos. Las claves se comparan en minusculas y sin tildes contra el nombre y el alias del partido.",
+  "_actualizado": "2026-08-27",
+  "coaliciones": {
+    "Chile Vamos": ["udi", "union democrata independiente", "rn", "renovacion nacional", "evopoli", "evolucion politica"],
+    "Republicanos y aliados": ["republicano", "partido republicano", "pnl", "partido nacional libertario", "social cristiano", "psc"],
+    "Oficialismo": ["ps", "partido socialista", "ppd", "partido por la democracia", "prsd", "partido radical", "pc", "partido comunista", "fa", "frente amplio", "cs", "convergencia social", "rd", "revolucion democratica", "comunes", "accion humanista", "ah", "fverde", "federacion regionalista verde social", "frvs"],
+    "Democratas y Amarillos": ["democratas", "amarillos", "amarillos por chile"],
+    "Democracia Cristiana": ["dc", "partido democrata cristiano"],
+    "Independientes": ["independientes", "ind"],
+    "Partido Liberal de Chile": ["partido liberal de chile", "liberal de chile", "pl"],
+    "Partido de la Gente": ["partido de la gente", "pdg"]
+  },
+  "parametros": {
+    "min_votantes_coalicion": 4,
+    "peso_abstencion": 0.5,
+    "min_votaciones_para_ranking": 30
+  }
+}

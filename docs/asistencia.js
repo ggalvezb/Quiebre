@@ -10,6 +10,11 @@ const estado = {
 
 const ES_INDEPENDIENTE = (coalicion) => coalicion === "Independientes";
 
+// el mapa de coaliciones original (etl/config/coaliciones.json) no se toca;
+// esto es solo el nombre que se muestra en el sitio
+const NOMBRE_MOSTRADO = { Oficialismo: "Oposición" };
+const nombreCoalicion = (c) => NOMBRE_MOSTRADO[c] || c;
+
 function diputadosVisibles() {
   return estado.incluirIndependientes
     ? estado.diputados
@@ -53,7 +58,7 @@ function filaHTML(d, puesto) {
   return `
     <button class="stack-fila" data-id="${d.id}" type="button" title="${esc(d.nombre)}: ${pct(d.asistencia)} de asistencia">
       <span class="puesto">${String(puesto).padStart(2, "0")}</span>
-      <span class="nombre">${esc(d.nombre)}<small>${esc(d.partido)} · ${esc(d.coalicion)}</small></span>
+      <span class="nombre">${esc(d.nombre)}<small>${esc(d.partido)} · ${esc(nombreCoalicion(d.coalicion))}</small></span>
       <span class="stack">${stackHTML(d)}</span>
       <span class="indice">${pct(d.asistencia)}<small>ASISTENCIA</small></span>
     </button>`;
@@ -84,7 +89,7 @@ function listaFiltrada() {
   const t = texto.trim().toLowerCase();
   let lista = diputadosVisibles().filter((d) => {
     if (d.asistencia == null) return false;
-    if (t && !`${esc(d.nombre)} ${esc(d.partido)} ${esc(d.coalicion)}`.toLowerCase().includes(t)) return false;
+    if (t && !`${esc(d.nombre)} ${esc(d.partido)} ${esc(d.coalicion)} ${esc(nombreCoalicion(d.coalicion))}`.toLowerCase().includes(t)) return false;
     return true;
   });
 
@@ -92,7 +97,9 @@ function listaFiltrada() {
     "asistencia-asc": (a, b) => a.asistencia - b.asistencia,
     "asistencia-desc": (a, b) => b.asistencia - a.asistencia,
     nombre: (a, b) => a.nombre.localeCompare(b.nombre, "es"),
-    coalicion: (a, b) => a.coalicion.localeCompare(b.coalicion, "es") || a.nombre.localeCompare(b.nombre, "es"),
+    coalicion: (a, b) =>
+      nombreCoalicion(a.coalicion).localeCompare(nombreCoalicion(b.coalicion), "es") ||
+      a.nombre.localeCompare(b.nombre, "es"),
   }[estado.orden];
 
   return lista.sort(cmp);
@@ -137,7 +144,7 @@ function pintarComparativoCoaliciones() {
     .map(
       (c) => `
       <div class="chart-fila">
-        <span class="chart-etiqueta">${esc(c.nombre)}<small>${c.integrantes} integrantes</small></span>
+        <span class="chart-etiqueta">${esc(nombreCoalicion(c.nombre))}<small>${c.integrantes} integrantes</small></span>
         <div class="chart-pista">
           <span class="chart-barra" style="width:${c.promedio * 100}%"></span>
         </div>

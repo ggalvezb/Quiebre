@@ -12,6 +12,11 @@ const estado = {
 
 const ES_INDEPENDIENTE = (coalicion) => coalicion === "Independientes";
 
+// el mapa de coaliciones original (etl/config/coaliciones.json) no se toca;
+// esto es solo el nombre que se muestra en el sitio
+const NOMBRE_MOSTRADO = { Oficialismo: "Oposición" };
+const nombreCoalicion = (c) => NOMBRE_MOSTRADO[c] || c;
+
 // los independientes no forman una coalicion real; agruparlos como si fuera
 // una es una simplificacion editorial, asi que quedan ocultos salvo que el
 // usuario los pida explicitamente
@@ -89,7 +94,7 @@ function filaHTML(d, puesto, campo = "indice", etiqueta = "QUIEBRE") {
     <button class="fila" data-id="${d.id}" type="button">
       <span class="puesto">${puesto != null ? String(puesto).padStart(2, "0") : ""}</span>
       <span class="nombre">${esc(d.nombre)}<small>Distrito ${esc(d.distrito) || "—"}</small></span>
-      <span class="grupo"><b>${esc(d.partido)}</b>${esc(d.coalicion)}</span>
+      <span class="grupo"><b>${esc(d.partido)}</b>${esc(nombreCoalicion(d.coalicion))}</span>
       <span class="celda-tira">${tira(d.serie, d.quiebre_serie)}</span>
       <span class="indice">${pct(d[campo])}<small>${etiqueta}</small></span>
     </button>`;
@@ -142,7 +147,7 @@ function pintarCohesion() {
     .map(
       (c) => `
       <div class="barra">
-        <span class="nom">${esc(c.nombre)}<small>${c.integrantes} integrantes · ${c.votaciones_con_linea} votaciones con línea</small></span>
+        <span class="nom">${esc(nombreCoalicion(c.nombre))}<small>${c.integrantes} integrantes · ${c.votaciones_con_linea} votaciones con línea</small></span>
         <span class="pista"><span class="relleno" style="width:${((c.cohesion || 0) / max) * 100}%"></span></span>
         <span class="val">${pct(c.cohesion, 0)}</span>
       </div>`
@@ -156,7 +161,7 @@ function listaFiltrada() {
   let lista = diputadosVisibles().filter((d) => {
     if (coalicion && d.coalicion !== coalicion) return false;
     if (d.computables < min) return false;
-    if (t && !`${esc(d.nombre)} ${esc(d.partido)} ${esc(d.coalicion)}`.toLowerCase().includes(t)) return false;
+    if (t && !`${esc(d.nombre)} ${esc(d.partido)} ${esc(d.coalicion)} ${esc(nombreCoalicion(d.coalicion))}`.toLowerCase().includes(t)) return false;
     return true;
   });
 
@@ -222,7 +227,7 @@ function abrirFicha(id) {
     <div class="ficha-encabezado">
       <p class="eyebrow" style="color:var(--tinta-3)">Puesto ${puesto} de ${visibles.length}</p>
       <h3>${esc(d.nombre)}</h3>
-      <p class="grupo">${esc(d.partido)} · ${esc(d.coalicion)} · Distrito ${esc(d.distrito) || "—"}</p>
+      <p class="grupo">${esc(d.partido)} · ${esc(nombreCoalicion(d.coalicion))} · Distrito ${esc(d.distrito) || "—"}</p>
     </div>
 
     <dl class="cifras">
@@ -347,11 +352,12 @@ function conectar() {
 }
 
 function poblarFiltroCoalicion() {
-  const coaliciones = [...new Set(diputadosVisibles().map((d) => d.coalicion))].sort();
+  const coaliciones = [...new Set(diputadosVisibles().map((d) => d.coalicion))]
+    .sort((a, b) => nombreCoalicion(a).localeCompare(nombreCoalicion(b), "es"));
   const select = $("#filtro-coalicion");
   select.innerHTML =
     `<option value="">Todas</option>` +
-    coaliciones.map((c) => `<option value="${esc(c)}">${esc(c)}</option>`).join("");
+    coaliciones.map((c) => `<option value="${esc(c)}">${esc(nombreCoalicion(c))}</option>`).join("");
 }
 
 /* -------------------------------------------------------------- inicio */
